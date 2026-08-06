@@ -12,26 +12,27 @@ export default function Hero() {
   return (
     <section className="relative h-[85vh] w-full flex items-center justify-center overflow-hidden">
       
-      {/* === هذا هو الكود الصحيح للفيديو === */}
+      {/* فيديو الخلفية */}
       <video
-        autoPlay     /* تشغيل تلقائي */
-        loop         /* تكرار */
-        muted        /* ضروري جداً لمنع الصوت وتشغيل الفيديو في Chrome */
-        playsInline  /* ضروري لتشغيله على أجهزة الموبايل */
+        autoPlay
+        loop
+        muted
+        playsInline
         className="absolute inset-0 w-full h-full object-cover"
       >
-        {/* نستخدم المسار المباشر للفيديو داخل مجلد public */}
         <source src="/bg-video.mp4" type="video/mp4" />
         عذراً، متصفحك لا يدعم تشغيل الفيديو.
       </video>
 
+      {/* طبقة الظلام فوق الفيديو */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
 
-      <div className="relative z-10 text-center text-white px-4 max-w-3xl mx-auto">
-        <h1 className="text-5xl sm:text-7xl font-black tracking-tight mb-4 drop-shadow-lg">
+      {/* المحتوى - تم توسيع الحاوية لتملأ المساحة بشكل أنيق على البيسي والهاتف */}
+      <div className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8 w-full max-w-5xl mx-auto">
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-4 drop-shadow-lg">
           Experience <span className="text-[#FF9F1C]">Authentic</span> Flavors
         </h1>
-        <p className="text-lg sm:text-2xl text-gray-100 mb-8 font-medium drop-shadow-md">
+        <p className="text-base sm:text-xl lg:text-2xl text-gray-100 mb-8 font-medium drop-shadow-md">
           Authentic flavors straight to your table.
         </p>
 
