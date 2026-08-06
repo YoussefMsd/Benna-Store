@@ -28,9 +28,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-screen bg-gray-100 text-gray-900 overflow-x-hidden">
-        {/* هاد الـ div كيجبر التطبيق يبان كـ App حقيقي فالموبايل وفـ النص فـ PC */}
-        <div className="max-w-md mx-auto min-h-screen bg-white shadow-xl flex flex-col">
+      <body className="min-h-screen bg-gray-50 text-gray-900 overflow-x-hidden">
+        {/* التطبيق دابا غادي يطلق العرض ديالو كليا على البيسي وعلى الهاتف */}
+        <div className="w-full min-h-screen bg-white flex flex-col">
           {children}
         </div>
       </body>
