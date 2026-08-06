@@ -18,14 +18,14 @@ export default function Footer() {
             <p className="text-gray-400 text-sm">Authentic Moroccan Culinary Experience.</p>
           </div>
 
-          {/* وسائل التواصل والتلفون - Grid m9add f telephone */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-wrap items-center gap-4 sm:gap-6 w-full md:w-auto">
+          {/* وسائل التواصل والتلفون */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:flex md:flex-row items-center gap-4 md:gap-6 w-full md:w-auto">
             <a
               href="https://wa.me/212645447407"
               target="_blank"
               rel="noopener noreferrer"
               onClick={playClickSound}
-              className="flex items-center justify-center md:justify-start gap-2.5 p-2.5 sm:p-0 rounded-xl bg-gray-50 sm:bg-transparent text-gray-600 hover:text-[#2EC4B6] transition-all"
+              className="flex items-center justify-center md:justify-start gap-2 p-3 md:p-0 rounded-xl bg-gray-50 md:bg-transparent text-gray-600 hover:text-[#2EC4B6] transition-all"
             >
               <MessageSquare className="w-5 h-5 text-[#2EC4B6]" />
               <span className="text-sm font-semibold">WhatsApp</span>
@@ -36,7 +36,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={playClickSound}
-              className="flex items-center justify-center md:justify-start gap-2.5 p-2.5 sm:p-0 rounded-xl bg-gray-50 sm:bg-transparent text-gray-600 hover:text-[#FF9F1C] transition-all"
+              className="flex items-center justify-center md:justify-start gap-2 p-3 md:p-0 rounded-xl bg-gray-50 md:bg-transparent text-gray-600 hover:text-[#FF9F1C] transition-all"
             >
               <Globe className="w-5 h-5 text-[#FF9F1C]" />
               <span className="text-sm font-semibold">Instagram</span>
@@ -45,19 +45,19 @@ export default function Footer() {
             <a
               href="tel:+212645447407"
               onClick={playClickSound}
-              className="flex items-center justify-center md:justify-start gap-2.5 p-2.5 sm:p-0 rounded-xl bg-gray-50 sm:bg-transparent text-gray-600 hover:text-[#2EC4B6] transition-all"
+              className="flex items-center justify-center md:justify-start gap-2 p-3 md:p-0 rounded-xl bg-gray-50 md:bg-transparent text-gray-600 hover:text-[#2EC4B6] transition-all"
             >
               <Phone className="w-5 h-5 text-[#2EC4B6]" />
-              <span className="text-sm font-semibold">+212 645 447 407</span>
+              <span className="text-sm font-semibold whitespace-nowrap">+212 645 447 407</span>
             </a>
 
             <a
               href="mailto:e.youssef.code@gmail.com"
               onClick={playClickSound}
-              className="flex items-center justify-center md:justify-start gap-2.5 p-2.5 sm:p-0 rounded-xl bg-gray-50 sm:bg-transparent text-gray-600 hover:text-[#FF9F1C] transition-all"
+              className="flex items-center justify-center md:justify-start gap-2 p-3 md:p-0 rounded-xl bg-gray-50 md:bg-transparent text-gray-600 hover:text-[#FF9F1C] transition-all"
             >
               <Mail className="w-5 h-5 text-[#FF9F1C]" />
-              <span className="text-sm font-semibold truncate max-w-[220px] sm:max-w-none">
+              <span className="text-sm font-semibold whitespace-nowrap">
                 e.youssef.code@gmail.com
               </span>
             </a>
