@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "BENNA - Food Ordering App",
   description: "Order your favorite food now with BENNA",
-  manifest: "/manifest.json", // <-- ربط ملف الـ PWA هنا
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -28,8 +28,11 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white text-gray-900">
-        {children}
+      <body className="min-h-screen bg-gray-100 text-gray-900 overflow-x-hidden">
+        {/* هاد الـ div كيجبر التطبيق يبان كـ App حقيقي فالموبايل وفـ النص فـ PC */}
+        <div className="max-w-md mx-auto min-h-screen bg-white shadow-xl flex flex-col">
+          {children}
+        </div>
       </body>
     </html>
   );

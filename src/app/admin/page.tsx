@@ -67,7 +67,6 @@ export default function AdminDashboard() {
     if (error) console.error("Error fetching orders:", error);
   };
 
-  // تعديل حالة الطلب (Status)
   const handleStatusChange = async (id: string, newStatus: string) => {
     const { error } = await supabase.from("orders").update({ status: newStatus }).eq("id", id);
     if (error) {
@@ -77,22 +76,17 @@ export default function AdminDashboard() {
     }
   };
 
-  // حذف الطلب من قاعدة البيانات مع Animation Smooth
   const handleDeleteOrder = async (id: string) => {
     if (confirm("Are you sure you want to delete this order?")) {
-      // 1. تفعيل الـ Animation ديال الاختفاء
       setDeletingOrderId(id);
-
-      // 2. الحذف من Supabase
       const { error, count } = await supabase.from("orders").delete({ count: 'exact' }).eq("id", id);
       
       console.log("Supabase Delete Result - Error:", error, "Count:", count);
 
       if (error) {
         alert("Error deleting order from database: " + error.message);
-        setDeletingOrderId(null); // إلغاء الـ Animation إلا وقع خطأ
+        setDeletingOrderId(null);
       } else {
-        // الانتظار حتى تكمن الـ Animation عاد يتحيد من الـ State (300ms)
         setTimeout(() => {
           setOrders((prevOrders) => prevOrders.filter((order) => order.id !== id));
           setDeletingOrderId(null);
@@ -237,7 +231,7 @@ export default function AdminDashboard() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-6 md:p-10">
+      <main className="flex-1 p-6 md:p-10 w-full overflow-hidden">
         {/* TAB 1: DISHES MANAGEMENT */}
         {activeTab === "dishes" && (
           <div className="space-y-8">
@@ -248,6 +242,7 @@ export default function AdminDashboard() {
               </span>
             </div>
 
+            {/* Forms remain unchanged */}
             {editingDish ? (
               <form onSubmit={handleUpdateDish} className="bg-amber-50/60 border-2 border-amber-200 p-6 rounded-2xl shadow-sm space-y-4">
                 <div className="flex justify-between items-center">
@@ -378,11 +373,13 @@ export default function AdminDashboard() {
               </form>
             )}
 
-            <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
-              <table className="w-full text-left border-collapse">
-                <thead className="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase font-bold">
+            {/* الحاوية الجديدة الخاصة بالجدول - تم إضافة overflow-x-auto */}
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-x-auto w-full">
+              {/* تم إضافة min-w-[800px] باش الجدول مايتزيرش فالتيلفون ويقدر يتسكرولا */}
+              <table className="w-full text-left border-collapse min-w-[800px]">
+                <thead className="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase font-bold whitespace-nowrap">
                   <tr>
-                    <th className="p-4">Dish</th>
+                    <th className="p-4 w-2/5">Dish</th>
                     <th className="p-4">Category</th>
                     <th className="p-4">Price</th>
                     <th className="p-4">Stock</th>
@@ -391,23 +388,29 @@ export default function AdminDashboard() {
                 </thead>
                 <tbody className="divide-y divide-gray-100 text-sm">
                   {dishes.map((dish) => (
-                    <tr key={dish.id} className="hover:bg-gray-50/50">
-                      <td className="p-4 flex items-center gap-3">
-                        <img src={dish.image_url} className="w-10 h-10 rounded-lg object-cover" />
-                        <div>
-                          <p className="font-bold text-gray-900">{dish.title}</p>
-                          <p className="text-xs text-gray-400 line-clamp-1">{dish.description}</p>
+                    <tr key={dish.id} className="hover:bg-gray-50/50 transition-colors">
+                      <td className="p-4 flex items-center gap-4">
+                        <img src={dish.image_url} className="w-12 h-12 rounded-xl object-cover border border-gray-100 shadow-sm" alt={dish.title} />
+                        <div className="flex flex-col">
+                          <p className="font-bold text-gray-900 text-base">{dish.title}</p>
+                          <p className="text-xs text-gray-400 line-clamp-1 max-w-[200px]" title={dish.description}>{dish.description}</p>
                         </div>
                       </td>
-                      <td className="p-4 font-semibold text-gray-600">{dish.category || "Others"}</td>
-                      <td className="p-4 font-bold text-[#FF9F1C]">{dish.price} MAD</td>
-                      <td className="p-4 font-bold text-gray-700">{dish.stock}</td>
-                      <td className="p-4 text-right">
+                      <td className="p-4 font-semibold text-gray-600 whitespace-nowrap">
+                        <span className="bg-gray-100 px-3 py-1.5 rounded-lg text-xs">{dish.category || "Others"}</span>
+                      </td>
+                      <td className="p-4 font-black text-[#FF9F1C] whitespace-nowrap">{dish.price} MAD</td>
+                      <td className="p-4 whitespace-nowrap">
+                        <span className={`font-bold px-3 py-1.5 rounded-lg text-xs ${dish.stock > 5 ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
+                          {dish.stock} {dish.stock <= 5 && " (Low)"}
+                        </span>
+                      </td>
+                      <td className="p-4 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-2">
-                          <button onClick={() => setEditingDish(dish)} className="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-all" title="Edit Dish">
+                          <button onClick={() => setEditingDish(dish)} className="p-2 text-amber-600 hover:bg-amber-100 bg-amber-50 rounded-xl transition-all" title="Edit Dish">
                             <Edit3 className="w-4 h-4" />
                           </button>
-                          <button onClick={() => handleDeleteDish(dish.id)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-all" title="Delete Dish">
+                          <button onClick={() => handleDeleteDish(dish.id)} className="p-2 text-red-600 hover:bg-red-100 bg-red-50 rounded-xl transition-all" title="Delete Dish">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
@@ -446,10 +449,9 @@ export default function AdminDashboard() {
                         </div>
                         <p className="text-gray-500 text-sm mb-2">📍 {order.customer_address}</p>
                         
-                        {/* قائمة الأطباق المطلوبة */}
-                        <div className="text-xs text-gray-500 mb-2 space-x-1">
+                        <div className="text-xs text-gray-500 mb-2 flex flex-wrap gap-1">
                           {order.items?.map((item: any, idx: number) => (
-                            <span key={idx} className="inline-block bg-gray-100 px-2 py-1 rounded font-medium mr-1">
+                            <span key={idx} className="inline-block bg-gray-100 px-2 py-1 rounded font-medium">
                               {item.title} (x{item.quantity})
                             </span>
                           ))}
@@ -460,15 +462,14 @@ export default function AdminDashboard() {
                         </div>
                       </div>
 
-                      <div className="text-right flex flex-col items-end gap-3 w-full md:w-auto">
+                      <div className="text-right flex flex-col items-end gap-3 w-full md:w-auto mt-4 md:mt-0">
                         <span className="text-xl font-black text-[#FF9F1C]">{order.total_price} MAD</span>
                         
-                        <div className="flex items-center gap-2">
-                          {/* قائمة منسدلة لتعديل الحالة */}
+                        <div className="flex items-center gap-2 w-full md:w-auto justify-end">
                           <select
                             value={order.status || "Pending"}
                             onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                            className={`text-xs font-bold px-3 py-2 rounded-xl outline-none cursor-pointer border ${
+                            className={`text-xs font-bold px-3 py-2 rounded-xl outline-none cursor-pointer border flex-1 md:flex-none ${
                               order.status === "Confirmed"
                                 ? "bg-blue-50 border-blue-200 text-blue-600"
                                 : order.status === "Delivered"
@@ -484,7 +485,6 @@ export default function AdminDashboard() {
                             <option value="Cancelled">Cancelled</option>
                           </select>
 
-                          {/* زر X يظهر فقط إذا كانت الحالة Delivered أو Cancelled */}
                           {(order.status === "Delivered" || order.status === "Cancelled") && (
                             <button
                               onClick={() => handleDeleteOrder(order.id)}
